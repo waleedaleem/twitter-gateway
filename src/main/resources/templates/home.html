@@ -7,7 +7,13 @@
 <body>
     <center>
         <h1>Search Results</h1>
-        <img th:src="@{/images/home_logo.jpg}"/>
+        <img th:src="@{/images/home_logo.jpg}" th:width="500" th:height="200"/>
     </center>
+
+    <table th:object="${tweets}" id="tweetTable" border="0">
+        <tr th:each="tweet :${tweets}">
+            <td th:text="${tweet}"></td>
+        </tr>
+    </table>
 </body>
 </html>
