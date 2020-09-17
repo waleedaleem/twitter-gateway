@@ -16,17 +16,22 @@ public class TwitterRoute extends RouteBuilder {
     @Autowired
     TwitterConfig twitterConfig;
 
+    @Autowired
+    TweetExtractor tweetExtractor;
+
     @Override
     public void configure() {
         //@formatter:off
         StringBuilder uriPattern = new StringBuilder("twitter-search:${header.keywords}")
-            .append("?numberOfPages=").append(twitterConfig.getPageCount())
+            .append("?filterOld=false")
+            .append("&numberOfPages=").append(twitterConfig.getPageCount())
             .append("&count=").append(twitterConfig.getPageSize());
         
         from(DIRECT_URI)
             .routeId(ROUTE_ID)
             .log(String.format("Searching twitter for \"%s\"!", "${header.keywords}"))
-            .toD(uriPattern.toString());
+            .toD(uriPattern.toString())
+            .bean(tweetExtractor);
         //@formatter:on
     }
 }
