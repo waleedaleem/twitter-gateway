@@ -1,6 +1,5 @@
 package com.walid.gw.service;
 
-import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ public class TwitterRoute extends RouteBuilder {
         from(DIRECT_URI)
             .routeId(ROUTE_ID)
             .log(String.format("Searching twitter for \"%s\"!", "${header.keywords}"))
-            .to(ExchangePattern.InOut, uriPattern);
+            .toD(uriPattern);
         //@formatter:on
     }
 }

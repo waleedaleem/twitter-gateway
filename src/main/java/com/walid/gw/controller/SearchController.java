@@ -2,9 +2,9 @@ package com.walid.gw.controller;
 
 import static com.walid.gw.service.TwitterRoute.DIRECT_URI;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import twitter4j.Status;
 
 /**
  * @author wmoustafa
@@ -36,13 +38,14 @@ public class SearchController {
     public String home(@RequestParam(value = "keywords", required = false) String keywords,
                        Model model) {
         logger.debug("Received a search for keywords \"{}\"", keywords);
-        List<String> tweets = new ArrayList<>();
-        producer.sendBodyAndHeader(DIRECT_URI, "SEARCH", "keywords", keywords);
-        if (Objects.nonNull(keywords)) {
-            tweets.add(keywords + " is cool");
-            tweets.add(keywords + " is old");
+        final List<Status> tweets = producer.requestBodyAndHeader(
+                DIRECT_URI, "SEARCH", "keywords", keywords, List.class);
+
+        if (Objects.nonNull(keywords) && Objects.nonNull(tweets)) {
+            List<String> tweetsAsText = tweets.stream().map(Status::getText).collect(
+                    Collectors.toList());
+            model.addAttribute("tweets", tweetsAsText);
         }
-        model.addAttribute("tweets", tweets);
         return "home";
     }
 }
