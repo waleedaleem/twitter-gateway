@@ -38,13 +38,15 @@ public class SearchController {
     public String home(@RequestParam(value = "keywords", required = false) String keywords,
                        Model model) {
         logger.debug("Received a search for keywords \"{}\"", keywords);
-        final List<Status> tweets = producer.requestBodyAndHeader(
-                DIRECT_URI, "SEARCH", "keywords", keywords, List.class);
 
-        if (Objects.nonNull(keywords) && Objects.nonNull(tweets)) {
-            List<String> tweetsAsText = tweets.stream().map(Status::getText).collect(
-                    Collectors.toList());
-            model.addAttribute("tweets", tweetsAsText);
+        if (Objects.nonNull(keywords)) {
+            List<Status> tweets = producer.requestBodyAndHeader(
+                    DIRECT_URI, "SEARCH", "keywords", keywords, List.class);
+            if (Objects.nonNull(tweets) && !tweets.isEmpty()) {
+                List<String> tweetsAsText = tweets.stream().map(Status::getText).collect(
+                        Collectors.toList());
+                model.addAttribute("tweets", tweetsAsText);
+            }
         }
         return "home";
     }
