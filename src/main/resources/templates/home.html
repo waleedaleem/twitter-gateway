@@ -2,25 +2,61 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Results</title>
+    <title>Twitter Gateway</title>
+    <link href="webjars/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <center>
-        <h1>Search Results</h1>
-        <img th:src="@{/images/home_logo.jpg}" th:width="500" th:height="200"/>
-    </center>
-
-    <form action="/">
-        <label for="keywords">Keywords:</label><br>
-        <input type="text" id="keywords" name="keywords"><br>
-        <input type="submit" value="Submit">
-    </form>
-
-    <p>Click the "Submit" button, for fresh tweets.</p>
-
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    <img alt="Logo" src="/images/twitter-logo.png" width="150" height="45" style="margin-top: -8px;"/>
+                </a>
+            </div>
+            <div class="navbar-text navbar-right" style="margin-bottom: 15px;margin-right: 0px;">
+                <button class="btn btn-default btn-sm" type="button" id="saveTweet">Save Tweets</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="margin-top: 63px;">
+        <h1 class="text-center"><b>Welcome to Twitter Gateway Search API</b></h1><br/>
+        <form action="/">
+        <div class="input-group input-group-lg">
+                <span class="input-group-addon">
+                    <img src="/images/icons8-twitter-48.png" width="25"/>&nbsp;&nbsp;
+                </span>
+            <input type="text" class="form-control" id="keywords" name="keywords" placeholder="Search any text or #Tag">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" id="searchTweet" value="Submit">Search</button>
+            </span>
+        </div>
+        </form>
+        <br/>
+    </div>
     <table th:object="${tweets}" id="tweetTable" border="0">
         <tr th:each="tweet :${tweets}">
-            <td th:text="${tweet}"></td>
+            <div class="col-lg-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <span>
+                            <img class="img-rounded" th:src="${tweet.getUser().getProfileImageURL()}" width="30" height="30"/>
+                        </span>
+                        <div th:if="${tweet.user.name.length()} &gt; 30">
+                            <span th:text="${tweet.getUser().getName().toUpperCase().substring(0,30)}">TwitterUserName</span>
+                        </div>
+                        <div th:if="${tweet.user.name.length()} &lt; 30">
+                            <span th:text="${tweet.getUser().getName().toUpperCase()}">TwitterUserName</span>
+                        </div>
+                        <div class="panel-body" style="height:120px; overflow: auto;">
+                            <span th:text="${tweet.text}"></span>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="label label-info text-capitalize" th:text="${tweet.geoLocation}"></span>
+                            <span class="pull-right" formatDate format="dd-MMM-yyyy" th:text="${tweet.createdAt}"/></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
     </table>
 </body>

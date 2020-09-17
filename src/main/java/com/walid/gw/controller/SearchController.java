@@ -45,7 +45,7 @@ public class SearchController {
             if (Objects.nonNull(tweets) && !tweets.isEmpty()) {
                 List<String> tweetsAsText = tweets.stream().map(Status::getText).collect(
                         Collectors.toList());
-                model.addAttribute("tweets", tweetsAsText);
+                model.addAttribute("tweets", tweets);
             }
         }
         return "home";
