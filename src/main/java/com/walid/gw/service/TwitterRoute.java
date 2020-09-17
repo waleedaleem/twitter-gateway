@@ -10,10 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class TwitterRoute extends RouteBuilder {
 
+    public static final String ROUTE_ID = "twitterRoute";
+    public static final String DIRECT_URI = "direct:twitter";
+
     @Override
     public void configure() {
-        from("direct:twitter").routeId("twitterRoute").log(
-                String.format("Searching twitter for %s!", "${header.q}")).to(
-                        ExchangePattern.InOut, "stream:out");
+        String uriPattern = "twitter-search:${header.keywords}";
+        //@formatter:off
+        from(DIRECT_URI)
+            .routeId(ROUTE_ID)
+            .log(String.format("Searching twitter for \"%s\"!", "${header.keywords}"))
+            .to(ExchangePattern.InOut, uriPattern);
+        //@formatter:on
     }
 }

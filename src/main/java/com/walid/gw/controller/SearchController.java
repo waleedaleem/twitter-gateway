@@ -1,5 +1,7 @@
 package com.walid.gw.controller;
 
+import static com.walid.gw.service.TwitterRoute.DIRECT_URI;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +37,7 @@ public class SearchController {
                        Model model) {
         logger.debug("Received a search for keywords \"{}\"", keywords);
         List<String> tweets = new ArrayList<>();
-        producer.sendBodyAndHeader("direct:twitter", "SEARCH", "q", keywords);
+        producer.sendBodyAndHeader(DIRECT_URI, "SEARCH", "keywords", keywords);
         if (Objects.nonNull(keywords)) {
             tweets.add(keywords + " is cool");
             tweets.add(keywords + " is old");
