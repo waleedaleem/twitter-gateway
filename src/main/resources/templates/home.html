@@ -2,22 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Twitter Gateway</title>
-    <link href="webjars/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Social Gateway</title>
+    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand">
-                    <img alt="Logo" src="/images/twitter-logo.png" width="150" height="45"
-                         style="margin-top: -8px;"/>
+                    <img alt="Logo" src="/images/twitter-logo.png" width="150" height="45" style="margin-top: -8px;"/>
                 </a>
             </div>
         </div>
     </nav>
     <div class="container" style="margin-top: 63px;">
-        <h1 class="text-center"><b>Welcome to Twitter Gateway Search API</b></h1><br/>
+        <h1 class="text-center"><b>Welcome to Social Gateway Search API</b></h1><br/>
         <form action="/">
             <div class="input-group input-group-lg">
                 <span class="input-group-addon">
@@ -32,29 +31,26 @@
         </form>
         <br/>
     </div>
-    <table th:object="${tweets}" id="tweetTable" border="0">
-        <tr th:each="tweet :${tweets}">
-            <div class="col-lg-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <span>
-                            <img class="img-rounded" th:src="${tweet.userImageUrl}" width="30" height="30"/>
-                        </span>
-                        <div>
-                            <span th:text="${tweet.userName}">TwitterUserName</span>
-                        </div>
-                        <div class="panel-body" style="height:120px; overflow: auto;">
-                            <span th:text="${tweet.text}"></span>
-                        </div>
-                        <div class="panel-footer">
-                            <span class="label label-info text-capitalize" th:text="${tweet.latitude}"></span>
-                            <span class="label label-info text-capitalize" th:text="${tweet.longitude}"></span>
-                            <span class="pull-right" formatDate format="dd-MMM-yyyy" th:text="${tweet.createdAt}"/></span>
-                        </div>
-                    </div>
+
+    <th:block th:each="tweet :${tweets}">
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <span>
+                        <img class="img-rounded" th:src="${tweet.userImageUrl}" width="30" height="30"/>
+                        <th:block th:text="${tweet.userName}"/>
+                    </span>
+                    <span class="pull-right" th:text="${tweet.retweetCount}">0</span>
+                </div>
+                <div class="panel-body" style="height:120px; overflow: auto;">
+                    <span th:text="${tweet.text}"></span>
+                </div>
+                <div class="panel-footer">
+                    <span class="label label-info text-capitalize" th:text="${tweet.country}"></span>
+                    <span class="pull-right" th:text="${#calendars.format(tweet.createdAt,'dd-MMM-yyyy')}"/></span>
                 </div>
             </div>
-        </tr>
-    </table>
+        </div>
+    </th:block>
 </body>
 </html>
