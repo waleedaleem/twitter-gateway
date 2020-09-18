@@ -1,5 +1,7 @@
 package com.walid.gw.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +21,10 @@ public class TweetExtractor {
 
     public List<Tweet> extract(List<Status> statusList) {
         if (statusList != null) {
-            return statusList.stream().map(Tweet::new).collect(Collectors.toList());
+            return statusList.stream().map(Tweet::new).sorted(
+                    Comparator.comparing(Tweet::getRetweetCount).reversed()).collect(
+                            Collectors.toList());
         }
-        return null;
+        return Collections.emptyList();
     }
 }

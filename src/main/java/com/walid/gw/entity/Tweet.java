@@ -9,14 +9,16 @@ import twitter4j.Status;
  */
 public class Tweet {
 
-    private final int MAX_NAME_LENGTH = 30;
+    private static final int MAX_NAME_LENGTH = 30;
 
     private String text;
     private String userName;
     private String userImageUrl;
+    private String country;
     private Date createdAt;
     private double latitude;
     private double longitude;
+    private int retweetCount;
 
     public Tweet(Status tweet) {
         this.text = tweet.getText();
@@ -26,10 +28,14 @@ public class Tweet {
         }
         this.userImageUrl = tweet.getUser().getProfileImageURL();
         this.createdAt = tweet.getCreatedAt();
+        if (tweet.getPlace() != null) {
+            this.country = tweet.getPlace().getCountry();
+        }
         if (tweet.getGeoLocation() != null) {
             this.latitude = tweet.getGeoLocation().getLatitude();
             this.longitude = tweet.getGeoLocation().getLongitude();
         }
+        this.retweetCount = tweet.getRetweetCount();
     }
 
     public String getText() {
@@ -44,6 +50,10 @@ public class Tweet {
         return userImageUrl;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -54,5 +64,9 @@ public class Tweet {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
     }
 }
