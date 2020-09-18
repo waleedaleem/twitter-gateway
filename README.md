@@ -17,7 +17,7 @@ $ ./mvnw clean package docker:build
 ```
 To run the Docker container (Ctrl+C to remove container)
 ```bash
-$ docker run -it --rm -p 80:80 --name twitter-gateway twitter-gateway
+$ docker run -it --rm -p 80:8080 --name twitter-gateway twitter-gateway
 ```
 
 To check container status
