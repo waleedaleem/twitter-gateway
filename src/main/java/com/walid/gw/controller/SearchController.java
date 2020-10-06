@@ -17,11 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.walid.gw.entity.Tweet;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * @author wmoustafa
  */
 @Controller
 @RequestMapping("/")
+@Api(description = "REST API for Twitter Search")
 public class SearchController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,6 +39,10 @@ public class SearchController {
         this.producer = producerTemplate;
     }
 
+    @ApiOperation(value = "keyword search end point")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok")
+    })
     @GetMapping()
     public String home(@RequestParam(value = "keywords", required = false) String keywords,
                        Model model) {
