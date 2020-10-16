@@ -24,7 +24,7 @@ To check container status
 ```bash
 $ docker ps
 CONTAINER ID        IMAGE                              COMMAND                  CREATED              STATUS                          PORTS                                                  NAMES
-a366bfcac246        twitter-gateway                    "java -jar /app/twit…"   About a minute ago   Up About a minute (unhealthy)   0.0.0.0:80->8080/tcp                                   twitter-gateway
+a366bfcac246        twitter-gateway                    "java -jar /app/twit…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:80->8080/tcp                                   twitter-gateway
 ```
 
 ## Browse to the home page http://localhost
